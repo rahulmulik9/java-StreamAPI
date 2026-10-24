@@ -30,10 +30,13 @@ public class P04_StreamReuseDemo {
         // ------------------------------------------------------------
 
         // Mistake A: reuse a stream after a terminal operation
+        /*
+        The stream stores no data. It stores a reference to where the data lives, plus a description of what to do with it.*/
         Stream<String> stream = names.stream();
         long count = stream.filter(n -> n.length() > 3).count();      // terminal: stream is now CONSUMED
         System.out.println("Count of long names     : " + count);
 
+        //Each stream object has an internal boolean flag, linkedOrConsumed, in the JDK class AbstractPipeline
         try {
             stream.map(String::toUpperCase).collect(Collectors.toList());   // second use
         } catch (IllegalStateException e) {
