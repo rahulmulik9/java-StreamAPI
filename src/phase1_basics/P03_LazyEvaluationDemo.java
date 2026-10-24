@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  *   Add a terminal operation. Use peek to see that elements flow one by one
  *   through the whole pipeline, not stage by stage.
  */
-public class LazyEvaluationDemo {
+public class P03_LazyEvaluationDemo {
     public static void main(String[] args) {
 
         List<String> names = List.of("Alice", "Bob", "Charlie", "David", "Eve");

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  *   A stream pipeline states the intent step by step:
  *   source -> filter -> map -> collect. Each step does one job and reads top to bottom.
  */
-public class StreamIntroDemo {
+public class P01_StreamIntroDemo {
     public static void main(String[] args) {
 
         List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve", "Frank");
