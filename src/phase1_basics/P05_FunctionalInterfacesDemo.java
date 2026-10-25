@@ -55,12 +55,14 @@ public class P05_FunctionalInterfacesDemo {
                 return s.length() > 3;
             }
         };
+
         Function<String, String> oldUpper = new Function<String, String>() {
             @Override
             public String apply(String s) {
                 return s.toUpperCase();
             }
         };
+
         List<String> oldResult = names.stream()
                 .filter(oldLong)
                 .map(oldUpper)
