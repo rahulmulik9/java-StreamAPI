@@ -27,11 +27,17 @@ public class P02_StreamCreationDemo {
         // ------------------------------------------------------------
         // 1. Broken version: common creation mistakes
         // ------------------------------------------------------------
-        int[] numbers = {10, 20, 30};
+        int[] primitiveNumbers = {10, 20, 30};
+        Integer[] objectNumbers = {10, 20, 30};
 
         // Mistake A: Stream.of with a primitive array -> Stream<int[]> with 1 element
-        long wrongCount = Stream.of(numbers).count();
-        System.out.println("Stream.of(int[]) count : " + wrongCount);        // 1, not 3
+        //int[], long[], double[], char[], boolean[]
+        long primitiveCount = Stream.of(primitiveNumbers).count();
+        long primtiveCountArray = Arrays.stream(primitiveNumbers).count();
+        long objectCount = Stream.of(objectNumbers).count();
+        System.out.println("Stream.of(int[]) primitive count     : " + primitiveCount);        // 1, not 3
+        System.out.println("Arrays.stream(int[]) primitive count : " + primtiveCountArray);        // 1, not 3
+        System.out.println("Stream.of(int[]) object count        : " + objectCount);
 
         // Mistake B: Stream.of with a null value -> one null element -> NPE later
         String maybeNull = null;
@@ -52,11 +58,17 @@ public class P02_StreamCreationDemo {
         System.out.println("Collection              : " + list.stream().collect(Collectors.toList()));
 
         // b) From a Map (stream its entrySet, keySet or values)
-        Map<String, Integer> map = Map.of("one", 1);
-        System.out.println("Map entries             : " + map.entrySet().stream().count());
+        Map<String, Integer> map = Map.of(
+                "one", 1,
+                "two", 2,
+                "three", 3,
+                "four", 4,
+                "five", 5
+        );
+        System.out.println("Map entries             : " + map.keySet().stream().count());
+        System.out.println("Map keys                : " + map.entrySet().stream().count());
 
-        // c) From an array (the fix for Mistake A)
-        System.out.println("Arrays.stream(int[]) count : " + Arrays.stream(numbers).count());   // 3
+        // c) for string class
         String[] words = {"java", "streams"};
         System.out.println("Arrays.stream(String[]) : " + Arrays.stream(words).collect(Collectors.toList()));
 
@@ -67,10 +79,10 @@ public class P02_StreamCreationDemo {
         System.out.println("generate + limit        : " + Stream.generate(() -> "hi").limit(3).collect(Collectors.toList()));
 
         // f) Stream.iterate: infinite, each value built from the previous one
-        System.out.println("iterate + limit         : " + Stream.iterate(1, n -> n * 2).limit(5).collect(Collectors.toList()));
+        System.out.println("iterate + limit         : " + Stream.iterate(1, n -> n * 2).limit(10).collect(Collectors.toList()));
 
         // g) Stream.iterate with a stop condition (Java 9+), like a for-loop
-        System.out.println("iterate with predicate  : " + Stream.iterate(1, n -> n <= 100, n -> n * 3).collect(Collectors.toList()));
+        System.out.println("iterate with predicate  : " + Stream.iterate(1, n -> n <= 100, n -> n * 2).collect(Collectors.toList()));
 
         // h) Stream.ofNullable (Java 9+): the fix for Mistake B
         System.out.println("ofNullable(null) count  : " + Stream.ofNullable(maybeNull).count());      // 0
@@ -80,38 +92,5 @@ public class P02_StreamCreationDemo {
         System.out.println("range(1, 5)             : " + IntStream.range(1, 5).boxed().collect(Collectors.toList()));
         System.out.println("rangeClosed(1, 5)       : " + IntStream.rangeClosed(1, 5).boxed().collect(Collectors.toList()));
 
-        // ------------------------------------------------------------
-        // 3. Output explanation
-        // ------------------------------------------------------------
-        /*
-         * Expected output:
-         *   Stream.of(int[]) count : 1
-         *   Stream.of(null value)     : NullPointerException
-         *   Collection              : [A, B, C]
-         *   Map entries             : 1
-         *   Arrays.stream(int[]) count : 3
-         *   Arrays.stream(String[]) : [java, streams]
-         *   Stream.of               : [x, y, z]
-         *   generate + limit        : [hi, hi, hi]
-         *   iterate + limit         : [1, 2, 4, 8, 16]
-         *   iterate with predicate  : [1, 3, 9, 27, 81]
-         *   ofNullable(null) count  : 0
-         *   ofNullable("abc") count : 1
-         *   range(1, 5)             : [1, 2, 3, 4]
-         *   rangeClosed(1, 5)       : [1, 2, 3, 4, 5]
-         *
-         * - Stream.of(int[]) treats the whole array as ONE object. For a
-         *   primitive array use Arrays.stream(arr) or IntStream.of(arr).
-         *   (For an Integer[] or String[], Stream.of does spread the elements.)
-         *
-         * - Stream.of(nullVariable) creates a stream holding one null, so
-         *   String::length throws NPE. Stream.ofNullable returns an empty
-         *   stream for null, so the pipeline simply does nothing.
-         *
-         * - generate and iterate (without a predicate) are INFINITE.
-         *   Always add limit() or a stop condition, or the program never ends.
-         *
-         * - range(1, 5) excludes 5. rangeClosed(1, 5) includes 5.
-         */
     }
 }
