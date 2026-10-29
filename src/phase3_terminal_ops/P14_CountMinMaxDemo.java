@@ -49,47 +49,6 @@ public class P14_CountMinMaxDemo {
         List<Integer> numbers = List.of(4, 9, 2, 7);
         List<String> words = List.of("stream", "map", "collector", "filter");
 
-        // ------------------------------------------------------------
-        // 1. Broken / verbose version
-        // ------------------------------------------------------------
-
-        // a) Loop with a sentinel value: an empty list gives a fake maximum
-        int loopMax = Integer.MIN_VALUE;
-        for (int n : List.<Integer>of()) {
-            if (n > loopMax) {
-                loopMax = n;
-            }
-        }
-        show("loop max on empty list", loopMax);
-
-        // b) Compile errors
-        //    employees.stream().max();             // no no-argument max for Stream<T>
-        //    int c = employees.stream().count();   // count() returns long, not int
-
-        // c) max().get() on an empty stream
-        try {
-            noEmployees.stream()
-                    .max(Comparator.comparingDouble(Employee::salary))
-                    .get();
-        } catch (NoSuchElementException e) {
-            show("max().get() on empty", "NoSuchElementException");
-        }
-
-        // d) count() can skip map entirely: the size is already known from the source
-        AtomicInteger mapCalls = new AtomicInteger();
-        long counted = employees.stream()
-                .map(e -> {
-                    mapCalls.incrementAndGet();
-                    return e.name();
-                })
-                .count();
-        show("count", counted);
-        show("map calls (expected 6)", mapCalls.get());
-
-        // ------------------------------------------------------------
-        // 2. Fixed / stream version
-        // ------------------------------------------------------------
-
         // a) count and count with filter
         show("count all", employees.stream().count());
         show("count IT", employees.stream().filter(e -> e.dept().equals("IT")).count());
