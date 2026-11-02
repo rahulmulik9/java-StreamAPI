@@ -36,8 +36,8 @@ public class P23_TeeingDemo {
 
         // Another example: min and max together
         String range = numbers.stream().collect(Collectors.teeing(
-                Collectors.minBy(Comparator.naturalOrder()),
-                Collectors.maxBy(Comparator.naturalOrder()),
+                Collectors.minBy(Comparator.<Integer>naturalOrder()),
+                Collectors.maxBy(Comparator.<Integer>naturalOrder()),
                 (min, max) -> min.get() + " to " + max.get()));
         System.out.println("range   : " + range);
     }
