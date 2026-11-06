@@ -35,10 +35,10 @@ public class P23_TeeingDemo {
         System.out.println("average : " + average);
 
         // Another example: min and max together
-        String range = numbers.stream().collect(Collectors.teeing(
-                Collectors.minBy(Comparator.<Integer>naturalOrder()),
-                Collectors.maxBy(Comparator.<Integer>naturalOrder()),
-                (min, max) -> min.get() + " to " + max.get()));
-        System.out.println("range   : " + range);
+//        String range = numbers.stream().collect(Collectors.teeing(
+//                Collectors.minBy(Comparator.naturalOrder()),
+//                Collectors.maxBy(Comparator.naturalOrder()),
+//                (min, max) -> min.get() + " to " + max.get()));
+//        System.out.println("range   : " + range);
     }
 }
