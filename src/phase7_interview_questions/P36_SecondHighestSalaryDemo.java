@@ -1,7 +1,6 @@
 package phase7_interview_questions;
 
 import java.util.*;
-import java.util.stream.*;
 
 /*
  * WHAT WE ARE GOING TO LEARN IN THIS STEP:
