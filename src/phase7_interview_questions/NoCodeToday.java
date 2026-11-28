@@ -1,6 +1,6 @@
 package phase7_interview_questions;
 
 
-//dont make
+//dont make this mistake 
 public class NoCodeToday {
 }
